@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DATA MURID</title>
+  </head>
+  <body>
+    <center>
+    <a href = "/students/add"> <button type="button" name="buttons">Tambah Murid</button></a><br><br>
+    <table border = "1">
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last_Name</th>
+        <th>E-mail</th>
+        <th>Edit</th>
+        <th>Hapus</th>
+      </tr>
+      <%data_students.forEach(dataStu => {%>
+      <tr>
+        <td><%=dataStu.id%></td>
+        <td><%=dataStu.first_name%></td>
+        <td><%=dataStu.last_name%></td>
+        <td><%=dataStu.email%></td>
+        <td><a href="/students/edit/<%=dataStu.id%>"> <button type="button" name="buttons">Ganti</button></a></td>
+        <td><a href="/students/delete/<%=dataStu.id%>" onclick="return confirm('are u sure?');"> <button type="button" name="buttons">Hapus</button></a></td>
+      </tr>
+      <%})%>
+    </table>
+  </center>
+  </body>
+</html>
