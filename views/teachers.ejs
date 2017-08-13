@@ -2,31 +2,42 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>DATA GURU</title>
+    <title>Data Guru</title>
   </head>
   <body>
     <center>
-    <a href = "/teachers/add"> <button type="button" name="buttons">Tambah Guru</button></a><br><br>
+    <h1>Data Guru</h1>
+    <a href = "/teachers/add"> <button type="button" name="buttons">Tambah Kontak</button></a><br><br>
     <table border = "1">
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Subject</th>
+
+      <th colspan="2">OPTION</th>
+    </tr>
+    <%data.forEach(dataShow => {%>
       <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last_Name</th>
-        <th>E-mail</th>
-        <th>Edit</th>
-        <th>Hapus</th>
+        <td><%=dataShow.id%></td>
+        <td><%=dataShow.first_name%></td>
+        <td><%=dataShow.last_name%></td>
+        <td><%=dataShow.email%></td>
+          <%if(dataShow.SubjectId==undefined){%>
+        <td>Gaada</td>
+        <% }else{ %>
+        <td><%=dataShow.Subject.subject_name%></td>
+          <%}%>
+
+        </th>
+
+        <td><a href="/teachers/edit/<%=dataShow.id%>"> <button type="button" name="buttons">Ganti</button></a></td>
+        <td><a href="/teachers/delete/<%=dataShow.id%>"> <button type="button" name="buttons">Hapus</button></a></td>
       </tr>
-      <%data_teachers.forEach(dataTea => {%>
-      <tr>
-        <td><%=dataTea.id%></td>
-        <td><%=dataTea.first_name%></td>
-        <td><%=dataTea.last_name%></td>
-        <td><%=dataTea.email%></td>
-        <td><a href="/teachers/edit/<%=dataTea.id%>"> <button type="button" name="buttons">Ganti</button></a></td>
-        <td><a href="/teachers/delete/<%=dataTea.id%>"> <button type="button" name="buttons">Hapus</button></a></td>
-      </tr>
-      <%})%>
-    </table>
-  </center>
+    <%})%>
+  </table>
+  <br><a href = "/"> <button type="button" name="buttons">Home</button></a><br><br>
+</center>
   </body>
 </html>
