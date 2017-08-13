@@ -22,7 +22,7 @@
         <td><%=dataStu.id%></td>
         <td><%=dataStu.first_name%></td>
         <td><%=dataStu.last_name%></td>
-        <td><%=dataStu.first_name+ " " + dataStu.last_name%></td>
+        <td><%=dataStu.full_name%></td>
         <td><%=dataStu.email%></td>
         <td><a href="/students/edit/<%=dataStu.id%>"> <button type="button" name="buttons">Ganti</button></a></td>
         <td><a href="/students/delete/<%=dataStu.id%>" onclick="return confirm('are u sure?');"> <button type="button" name="buttons">Hapus</button></a></td>

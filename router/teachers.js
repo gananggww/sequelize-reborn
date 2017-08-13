@@ -21,7 +21,7 @@ router.get("/add", (req, res)=>{
 router.post("/add", (req, res)=>{
   db.Teacher.create({
     first_name : `${req.body.first_name}`,
-    last_name : `${req.body.last_name}`,
+    last_name : `${req.body.last_name} `,
     email : `${req.body.email}`,
     createdAt : new Date(),
     updatedAt : new Date()

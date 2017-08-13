@@ -24,6 +24,7 @@ router.post("/add", (req, res)=>{
   db.Student.create({
     first_name : `${req.body.first_name}`,
     last_name : `${req.body.last_name}`,
+    full_name : `${req.body.first_name} ${req.body.last_name}`,
     email : `${req.body.email}`,
     createdAt : new Date(),
     updatedAt : new Date()
@@ -53,6 +54,7 @@ router.post("/edit/:id", (req, res)=>{
     let data = {
       first_name : `${req.body.first_name}`,
       last_name : `${req.body.last_name}`,
+      full_name : `${req.body.first_name} ${req.body.last_name}`,
       email : `${req.body.email}`,
       createdAt : new Date(),
       updatedAt : new Date()
