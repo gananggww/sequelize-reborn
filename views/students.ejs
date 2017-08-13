@@ -14,6 +14,7 @@
         <th>Last Name</th>
         <th>Full Name</th>
         <th>E-mail</th>
+        <th>Tambah Subject</th>
         <th>Edit</th>
         <th>Hapus</th>
       </tr>
@@ -24,6 +25,7 @@
         <td><%=dataStu.last_name%></td>
         <td><%=dataStu.full_name%></td>
         <td><%=dataStu.email%></td>
+        <td><a href="/students/addSubject/<%=dataStu.id%>"> <button type="button" name="buttons">Tambah Subject</button></td>
         <td><a href="/students/edit/<%=dataStu.id%>"> <button type="button" name="buttons">Ganti</button></a></td>
         <td><a href="/students/delete/<%=dataStu.id%>" onclick="return confirm('are u sure?');"> <button type="button" name="buttons">Hapus</button></a></td>
       </tr>

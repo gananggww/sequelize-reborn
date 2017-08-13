@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Give Score</title>
+  </head>
+  <body>
+    <!-- <h5><%= JSON.stringify(data_students) %> </h5>
+    <h5><%= JSON.stringify(data_subjects) %> </h5> -->
+    <table>
+      <tr>
+        <th>Student</th>
+        <td><%= data_students[0].first_name + ' ' + data_students[0].last_name %></td>
+      </tr>
+      <tr>
+        <th>Subject</th>
+        <td><%= data_subjects[0].subject_name %></td>
+      </tr>
+    </table>
+    <form action="/subjects/givescore/<%= data_students[0].id %>/<%= data_subjects[0].id %>" method="post">
+      <input type="text" name="score" placeholder="Give score">
+
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

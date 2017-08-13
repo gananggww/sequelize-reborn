@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Enrolled Students</title>
+  </head>
+  <body>
+    <!-- <p><%=JSON.stringify(data_students)%></p> -->
+    <center>
+      <h1><%= title.subject_name %></h1>
+    <div>
+      <table border : "1">
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th colspan="2">Score</th>
+
+        </tr>
+        <% var id = 1 %>
+        <% data_students.forEach(student => { %>
+          <tr>
+            <td><%= id++ %></td>
+            <td><%= student.Student.first_name + ' ' + student.Student.last_name %></td>
+            <td>
+              <% if (student.score == undefined) { %>
+              <a href="/subjects/givescore/<%= student.StudentId %>/<%= student.SubjectId %>"><button type="button" name="buttons">Give Score</button></a>
+            <% } else { %>
+              <%= student.score %>
+            <% } %>
+          </td>
+          </tr>
+        <% }) %>
+      </table>
+      <br>
+      <br>
+
+      <a href="/subjects"><button type="button" name="buttons">Back</botton></a>
+      </center>
+    </div>
+  </body>
+</html>

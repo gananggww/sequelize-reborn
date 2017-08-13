@@ -76,4 +76,29 @@ router.get("/delete/:id", (req,res)=>{
   })
 })
 
+
+//form - add Subject Kontak
+router.get('/addSubject/:id', (req, res) => {
+  db.Student.findById(req.params.id)
+  .then(data_students => {
+    db.Subject.findAll()
+    .then(data_subjects => {
+      res.render('form-student-subject', {
+        data_students : data_students,
+        data_subjects : data_subjects
+      })
+    })
+  })
+});
+
+router.post("/addSubject/:id", function(req, res){
+  db.StudentSubject.create({
+    StudentId: req.params.id,
+    SubjectId: req.body.SubjectId
+  }).then(() =>{
+    res.redirect("/students")
+  })
+})
+
+
 module.exports = router
