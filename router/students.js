@@ -17,8 +17,9 @@ router.get("/", (req, res)=>{
 })
 
 router.get("/add", (req, res)=>{
-  res.render("students-add", {err: req.query.err})
+  res.render("students-add" , {err: req.query.err})
 })
+
 router.post("/add", (req, res)=>{
   db.Student.create({
     first_name : `${req.body.first_name}`,
@@ -31,33 +32,41 @@ router.post("/add", (req, res)=>{
     res.redirect("/students")
   })
   .catch(err =>{
-    res.send(err)
+    let err_msg = err.errors[0].message
+    // cara object
+    res.render("students-add", {err: err_msg})
+
+    // cara ngambil pake datanya pake routing dengan
+    // res.redirect(`/students/add?err=${err_msg}`)
   })
 })
 router.get("/edit/:id", (req, res)=>{
   db.Student.findById(`${req.params.id}`)
   .then(row=>{
-    res.render("students-edit", {data_students : row})
+    res.render("students-edit", {data_students : row, err: null})
     // res.send(row)
   })
 })
 router.post("/edit/:id", (req, res)=>{
-  let data = {
-    first_name : `${req.body.first_name}`,
-    last_name : `${req.body.last_name}`,
-    email : `${req.body.email}`,
-    createdAt : new Date(),
-    updatedAt : new Date()
-  }
-  db.Student.update(data, {where : {id : `${req.params.id}`}})
-  .then(()=>{
-    res.redirect("/students")
-  })
-  .catch(err =>{
-    res.send(err)
+  db.Student.findById(`${req.params.id}`)
+  .then(row =>{
+    let data = {
+      first_name : `${req.body.first_name}`,
+      last_name : `${req.body.last_name}`,
+      email : `${req.body.email}`,
+      createdAt : new Date(),
+      updatedAt : new Date()
+    }
+    db.Student.update(data, {where : {id : `${req.params.id}`}})
+    .then(()=>{
+      res.redirect("/students")
+    })
+    .catch(err =>{
+      let err_msg = err.errors[0].message
+      res.render("students-edit", {data_students : row, err : err_msg})
+    })
   })
 })
-
 router.get("/delete/:id", (req,res)=>{
   db.Student.destroy({where : {id : `${req.params.id}`}})
   .then(()=>{
