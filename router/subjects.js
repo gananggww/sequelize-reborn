@@ -1,9 +1,20 @@
+const session = require('express-session')
 const express = require("express")
 const router = express.Router()
 var db = require("../models")
 const bodyParser = require('body-parser')
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
+
+
+router.use((req, res, next)=>{
+     if(req.session.role == "academic" || req.session.role == "headmaster"){
+       next()
+
+     }else {
+       res.redirect("/")
+     }
+})
 
 router.get("/", function(req, res){
   db.Subject.findAll({
@@ -64,7 +75,15 @@ router.post('/edit/:id', function(req, res){
 router.get('/delete/:id', function(req, res){
   db.Subject.destroy({where:{id:`${req.params.id}`}})
   .then(() =>{
-    res.redirect('/subjects')
+    db.StudentSubject.destroy({
+      where:{SubjectId:`${req.params.id}`}
+    })
+    .then(()=>{
+      db.Teacher.destroy({where : {SubjectId : `${req.params.id}`}})
+      .then(()=>{
+        res.redirect('/subjects')
+      })
+    })
   })
 })
 
@@ -77,29 +96,18 @@ router.get("/:id/enrolledstudents",function(req, res){
         SubjectId : req.params.id
       }
     }).then(param =>{
-      // console.log(param +" ++++++++++++++++++++++++");
+      console.log(param);
       res.render("sub-enrollStudents", {title : subject, data_students: param})
     })
   })
 })
 
 router.get('/givescore/:idst/:idsb', (req, res) => {
-  db.Student.findAll({
-    where: {
-      id: req.params.idst
-    }
-  })
+  db.Student.findAll({where: {id: req.params.idst}})
   .then(data_students => {
-    db.Subject.findAll({
-      where: {
-        id: req.params.idsb
-      }
-    })
+    db.Subject.findAll({where: {id: req.params.idsb}})
     .then(data_subjects => {
-      res.render('subjects_givescore', {
-        data_students: data_students,
-        data_subjects: data_subjects
-      })
+      res.render('subjects_givescore', {data_students: data_students, data_subjects: data_subjects})
     })
   })
 })

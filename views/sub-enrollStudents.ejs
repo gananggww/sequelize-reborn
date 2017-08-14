@@ -20,7 +20,7 @@
         <% data_students.forEach(student => { %>
           <tr>
             <td><%= id++ %></td>
-            <td><%= student.Student.first_name + ' ' + student.Student.last_name %></td>
+            <td><%= student.Student.full_name %></td>
             <td>
               <% if (student.score == undefined) { %>
               <a href="/subjects/givescore/<%= student.StudentId %>/<%= student.SubjectId %>"><button type="button" name="buttons">Give Score</button></a>

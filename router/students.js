@@ -1,3 +1,4 @@
+const session = require('express-session')
 const express = require("express")
 const router = express.Router()
 // router.set("view engine", "ejs")
@@ -6,6 +7,15 @@ const db = require("../models")
 //body-parser
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
+
+router.use((req, res, next)=>{
+     if(req.session.role == "teacher" || req.session.role == "academic" || req.session.role == "headmaster"){
+       next()
+     }else{
+      //  res.sendStatus(401)
+       res.redirect("/")
+     }
+})
 
 
 router.get("/", (req, res)=>{
@@ -72,6 +82,7 @@ router.post("/edit/:id", (req, res)=>{
 router.get("/delete/:id", (req,res)=>{
   db.Student.destroy({where : {id : `${req.params.id}`}})
   .then(()=>{
+    db.StudentSubject.destroy({where : {SubjectId : `${req.params.id}`}})
     res.redirect("/students")
   })
 })
@@ -85,7 +96,8 @@ router.get('/addSubject/:id', (req, res) => {
     .then(data_subjects => {
       res.render('form-student-subject', {
         data_students : data_students,
-        data_subjects : data_subjects
+        data_subjects : data_subjects,
+        eror : null
       })
     })
   })
@@ -97,6 +109,22 @@ router.post("/addSubject/:id", function(req, res){
     SubjectId: req.body.SubjectId
   }).then(() =>{
     res.redirect("/students")
+  }).catch(err=>{
+    let eror = err.errors[0].message;
+    if(eror == "StudentId must be unique")
+    {
+      db.Student.findById(req.params.id)
+      .then(data_students => {
+        db.Subject.findAll()
+        .then(data_subjects => {
+          res.render('form-student-subject', {
+            data_students : data_students,
+            data_subjects : data_subjects,
+            eror : "apapapasii maumu input dua kali, cape deh!"
+          })
+        })
+      })
+    }
   })
 })
 
