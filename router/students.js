@@ -19,7 +19,7 @@ router.use((req, res, next)=>{
 
 
 router.get("/", (req, res)=>{
-  db.Student.findAll()
+  db.Student.findAll({include : [db.Subject]})
   .then(dataT =>{
     res.render("students", {data_students : dataT})
     // res.send(dataT)
