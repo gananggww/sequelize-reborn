@@ -6,9 +6,9 @@ module.exports = {
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.
 
-      Example:*/
-      return queryInterface.addColumn('Teachers',"email",{type: Sequelize.STRING, unique : true});
-
+      Example:
+    */
+    return queryInterface.addColumn('Teachers',"SubjectId", Sequelize.INTEGER );
   },
 
   down: function (queryInterface, Sequelize) {
@@ -19,5 +19,6 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
+    return queryInterface.removeColumn('Teachers',"SubjectId");    
   }
 };

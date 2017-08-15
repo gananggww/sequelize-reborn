@@ -1,60 +1,90 @@
+const session = require('express-session')
 const express = require("express")
 const router = express.Router()
-// router.set("view engine", "ejs")
+var db = require("../models")
 const bodyParser = require('body-parser')
-const db = require("../models")
-//body-parser
+
+
+
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
-router.get("/", (req, res)=>{
-  db.Teacher.findAll()
-  .then(dataT =>{
-    res.render("teachers", {data_teachers : dataT})
-    // res.send(dataT)
+router.use((req, res, next)=>{
+     if(req.session.role == "headmaster"){
+       next()
+
+     }else {
+       res.redirect("/")
+     }
+})
+
+
+//Tampilkan Table Seluruh
+router.get("/", function(req, res){
+  db.Teacher.findAll({
+    include:[db.Subject]
+  })
+    .then(params => {
+      console.log(params);
+      res.render("teachers", {data:params} )
   })
 })
 
-router.get("/add", (req, res)=>{
-  res.render("teachers-add")
-})
-router.post("/add", (req, res)=>{
+//Tampilkan Form
+router.get('/add', function(req, res){
+  db.Subject.findAll()
+  .then(params =>{
+    res.render('form-teacher', {data:params})
+  })
+});
+//Proses Tambah Data / Post
+router.post('/add', function(req, res){
   db.Teacher.create({
-    first_name : `${req.body.first_name}`,
-    last_name : `${req.body.last_name} `,
-    email : `${req.body.email}`,
-    createdAt : new Date(),
-    updatedAt : new Date()
-  })
-  .then(()=>{
-    res.redirect("/teachers")
-  })
-})
-router.get("/edit/:id", (req, res)=>{
-  db.Teacher.findById(`${req.params.id}`)
-  .then(row=>{
-    res.render("teachers-edit", {data_teachers : row})
-    // res.send(row)
-  })
-})
-router.post("/edit/:id", (req, res)=>{
-  let data = {
-    first_name : `${req.body.first_name}`,
-    last_name : `${req.body.last_name}`,
-    email : `${req.body.email}`,
-    createdAt : new Date(),
-    updatedAt : new Date()
-  }
-  db.Teacher.update(data, {where : {id : `${req.params.id}`}})
-  .then(()=>{
-    res.redirect("/teachers")
-  })
-})
+    first_name: req.body.firstname,
+    last_name: req.body.lastname,
+    email:req.body.email,
+    SubjectId:req.body.dropDown,
+    createdAt: new Date(),
+    updatedAt: new Date()
 
-router.get("/delete/:id", (req,res)=>{
-  db.Teacher.destroy({where : {id : `${req.params.id}`}})
+  })
+  .then(() =>{
+      res.redirect('/teachers')
+  })
+})
+//Form Ganti Data
+router.get('/edit/:id', function(req, res){
+  db.Teacher.findById(req.params.id)
+  .then(paramsTeacher =>{
+    db.Subject.findAll()
+      .then(paramsSubject =>{
+          res.render('edit-teacher', {dataT: paramsTeacher, dataS : paramsSubject })
+      })
+    })
+  })
+//Update atau Ganti Data
+router.post('/edit/:id', function(req, res){
+  db.Teacher.update({
+    first_name: `${req.body.firstname}`,
+    last_name:`${req.body.lastname}`,
+    email:`${req.body.email}`,
+    SubjectId: `${req.body.dropDown}`,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }, {
+    where: {
+      id: `${req.params.id}`
+    }
+  })
   .then(()=>{
-    res.redirect("/teachers")
+    res.redirect('/teachers')
+  })
+})
+//Hapus Data
+router.get('/delete/:id', function(req, res){
+  db.Teacher.destroy({where:{id:`${req.params.id}`}})
+  .then(() =>{
+    res.redirect('/teachers')
   })
 })
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+  <center>
+    <h2>Ganti Data Guru</h2><br><br>
+    <form action="/teachers/edit/<%=dataT.id%>" method="POST">
+    First Name:<br>
+    <input type="text" name="firstname" value="<%=dataT.first_name%>">
+    <br><br>
+    Last Name:<br>
+    <input type="text" name="lastname" value="<%=dataT.last_name%>">
+    <br><br>
+    Email:<br>
+    <input type="text" name="email" value="<%=dataT.email%>">
+    <br><br>
+    <select name="dropDown">
+      <%dataS.forEach(dataDrop => {%>
+        <option value="<%=dataDrop.id%>" selected><%=dataDrop.subject_name%></option>
+      <%})%>
+    </select>
+    <br><br>
+    <input type="submit" value="Submit">
+    <a href = "/teachers"> <button type="button" name="buttons">Cancel</button></a>
+  </form>
+  </center>
+  </body>
+</html>

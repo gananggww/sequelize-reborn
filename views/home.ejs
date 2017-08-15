@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>HOME</title>
+  </head>
+  <body>
+    <center>
+      <%if(sesi.role === "headmaster"){%>
+        <h1>Selamat Datang <%=sesi.role%></h1>
+        <a href = "/students"> <button type="button" name="buttons">Student</button></a><br><br>
+        <a href = "/teachers"> <button type="button" name="buttons">Teacher</button></a><br><br>
+        <a href = "/subjects"> <button type="button" name="buttons">Subject</button></a><br><br>
+      <%}else if(sesi.role === "academic"){%>
+        <h1>Selamat Datang <%=sesi.role%></h1>
+        <a href = "/students"> <button type="button" name="buttons">Student</button></a><br><br>
+        <a href = "/subjects"> <button type="button" name="buttons">Subject</button></a><br><br>
+      <%}else if(sesi.role === "teacher"){%>
+        <h1>Selamat Datang <%=sesi.role%></h1>
+        <a href = "/students"> <button type="button" name="buttons">Student</button></a><br><br>
+      <%}%>
+    </center>
+  </body>
+</html>

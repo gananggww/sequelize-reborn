@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Data Guru</title>
+  </head>
+  <body>
+    <center>
+    <h1>Data Subjects</h1>
+    <a href = "/subjects/add"> <button type="button" name="buttons">Tambah Subjects</button></a><br><br>
+    <a href = "/logout"> <button type="button" name="buttons">Logout</button></a><br><br>
+    
+    <table border = "1">
+    <tr>
+      <th>ID</th>
+      <th>Subject</th>
+      <th>Teacher</th>
+      <th>Enroll</th>
+      <th>Edit</th>
+      <th>Hapus</th>
+    </tr>
+    <!-- <p><%=JSON.stringify(data[0])%></p> -->
+    <%data.forEach(dataShow => {%>
+      <tr>
+        <td><%=dataShow.id%></td>
+        <td><%=dataShow.subject_name%></td>
+        <td>
+        <%if(dataShow.Teachers[0] == undefined){%>Gaada
+        <%}else{
+          for(var i=0; i<dataShow.Teachers.length; i++){%>
+            <%= i+1 +". "+(dataShow.Teachers[i].first_name +" "+ dataShow.Teachers[i].last_name)%> <br>
+        <%}}%>
+
+
+        </td>
+        <td><a href="/subjects/<%= dataShow.id %>/enrolledstudents/"><button type="button" name="buttons">Enrolled Students</button></a></td>
+        <td><a href="/subjects/edit/<%=dataShow.id%>"> <button type="button" name="buttons">Ganti</button></a></td>
+        <td><a href="/subjects/delete/<%=dataShow.id%>"> <button type="button" name="buttons">Hapus</button></a></td>
+      </tr>
+    <%})%>
+  </table>
+  <br><a href = "/"> <button type="button" name="buttons">Home</button></a><br><br>
+</center>
+  </body>
+</html>
